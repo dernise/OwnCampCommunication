@@ -15,5 +15,35 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module OwnCampCommunication
-  VERSION='0.0.1'
+  class Connection
+    def initialize(address, key)
+      @address = address
+      @key = key
+      @status = 'NULL'
+    end
+
+    def open
+      begin
+        @socket = TCPSocket.new @address, 16121
+        send_auth_message
+      rescue Errno::ECONNREFUSED
+        @status = 'UNREACHABLE'
+        return
+      end
+    end
+
+    def send_auth_message
+      connect_message = ConnectMessage.new
+      @socket.puts connect_message.to_s
+      @status = 'CONNECTED'
+    end
+
+    def close
+      @socket.close
+    end
+
+    def status?
+      @status
+    end
+  end
 end

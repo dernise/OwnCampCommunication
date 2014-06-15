@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module OwnCampCommunication
-  VERSION='0.0.1'
-end
+#Includes every messages files
+
+%w(connect_message).each { |f|
+  require "OwnCampCommunication/messages/#{f}"
+}

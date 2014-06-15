@@ -15,5 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module OwnCampCommunication
-  VERSION='0.0.1'
+  module Opcodes
+    CMSG_AUTH_MESSAGE = 1
+  end
 end
