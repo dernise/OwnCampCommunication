@@ -17,5 +17,6 @@
 module OwnCampCommunication
   module Opcodes
     CMSG_AUTH_MESSAGE = 1
+    SMSG_AUTH_RESPONSE = 2
   end
 end

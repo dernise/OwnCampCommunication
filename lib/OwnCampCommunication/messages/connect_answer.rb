@@ -14,8 +14,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#Includes every messages files
 
-%w(connect_message connect_answer).each { |f|
-  require "OwnCampCommunication/messages/#{f}"
-}
+require 'OwnCampCommunication/messages/opcodes'
+require 'OwnCampCommunication/messages/answer'
+
+module OwnCampCommunication
+  class ConnectAnswer < Answer
+    attr_accessor :connection_status
+
+    def initialize(socket)
+      super(socket)
+      raise WrongOpcodeError if @opcode[0] != Opcodes::SMSG_AUTH_RESPONSE
+      deserialize
+    end
+
+    def deserialize
+      @connection_status = @message.get
+    end
+  end
+end

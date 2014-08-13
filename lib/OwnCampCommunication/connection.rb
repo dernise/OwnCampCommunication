@@ -19,7 +19,6 @@ module OwnCampCommunication
     def initialize(address, key)
       @address = address
       @key = key
-      @status = 'NULL'
     end
 
     def open
@@ -33,9 +32,17 @@ module OwnCampCommunication
     end
 
     def send_auth_message
-      connect_message = ConnectMessage.new
-      @socket.puts connect_message.to_s
-      @status = 'CONNECTED'
+      connect_message = ConnectMessage.new(@key)
+      @socket.write connect_message
+      answer = ConnectAnswer.new(@socket)
+      case answer.connection_status
+        when 0
+          @status = 'LOGGED_IN'
+        when 1
+          @status = 'INCORRECT_PASSWORD'
+        else
+          @status = 'UNKNOWN'
+      end
     end
 
     def close

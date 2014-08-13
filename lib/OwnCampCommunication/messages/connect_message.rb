@@ -19,9 +19,9 @@ require 'OwnCampCommunication/messages/message'
 
 module OwnCampCommunication
   class ConnectMessage < Message
-    def initialize
+    def initialize(key)
       super(Opcodes::CMSG_AUTH_MESSAGE)
-      put_cstring 'hello, world!'
+      put_cstring key
     end
   end
 end

@@ -14,8 +14,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#Includes every messages files
+module OwnCampCommunication
+  #Custom exception, used when the answer received is not the one we wanted
+  class WrongOpcodeError < StandardError
+  end
 
-%w(connect_message connect_answer).each { |f|
-  require "OwnCampCommunication/messages/#{f}"
-}
+  class Answer
+    attr_accessor :length, :opcode
+
+    def initialize(socket)
+      @length = socket.read(4).unpack('N')
+      @opcode = socket.read(2).unpack('n')
+      content = []
+
+      socket.read(@length[0]).each_byte do |c| #Reading every bytes and adding them in an array
+        content << c
+      end
+
+      @message = ByteBuffer.new(content) #Create a bytebuffer from this array
+    end
+  end
+end
