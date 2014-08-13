@@ -19,6 +19,7 @@ module OwnCampCommunication
     def initialize(address, key)
       @address = address
       @key = key
+      @status = 'NOT_CONNECTED'
     end
 
     def open
@@ -46,6 +47,7 @@ module OwnCampCommunication
     end
 
     def close
+      @status = 'NOT_CONNECTED'
       @socket.close
     end
 
