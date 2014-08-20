@@ -21,6 +21,7 @@ module OwnCampCommunication
   class ConnectMessage < Message
     def initialize(key)
       super(Opcodes::CMSG_AUTH_MESSAGE)
+      put_byte 1
       put_cstring key
     end
   end

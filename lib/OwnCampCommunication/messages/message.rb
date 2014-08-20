@@ -27,6 +27,11 @@ module OwnCampCommunication
       @buf.put_short(op)
     end
 
+    def put_byte(i)
+      @buf.put(i)
+      update_length
+    end
+
     def put_short(i)
       @buf.put_short(i)
       update_length
